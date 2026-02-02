@@ -4,16 +4,8 @@ A type-safe, functional JSON library for F# with powerful computation expression
 
 ## Installation
 
-Install from NuGet:
-
 ```bash
-dotnet add package totallymoney/Json.Ok
-```
-
-Or using Paket:
-
-```
-paket add totallymoney/Json.Ok
+dotnet add package Json.Ok
 ```
 
 ## Features
