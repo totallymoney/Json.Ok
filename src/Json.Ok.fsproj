@@ -11,7 +11,6 @@
     <PackageTags>json;fsharp;functional;type-safe;computation-expression;system-text-json;parser;serialization</PackageTags>
     <PackageProjectUrl>https://github.com/totallymoney/Json.Ok</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <!-- Repository information -->
@@ -24,7 +23,6 @@
     <Compile Include="Read.fs" />
     <Compile Include="Write.fs" />
     <None Include="../README.md" Pack="true" PackagePath="" />
-    <None Include="../LICENSE.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
