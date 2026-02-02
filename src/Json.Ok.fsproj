@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/totallymoney/Json.Ok</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>nuget-icon.png</PackageIcon>
 
     <!-- Repository information -->
     <RepositoryUrl>https://github.com/totallymoney/Json.Ok</RepositoryUrl>
@@ -23,6 +24,7 @@
     <Compile Include="Read.fs" />
     <Compile Include="Write.fs" />
     <None Include="../README.md" Pack="true" PackagePath="" />
+    <None Include="../nuget-icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
