@@ -1,0 +1,67 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  publish_version: 0.0.${{ github.run_number }}
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        dotnet: ['10.x.x']
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+          source-url: https://nuget.pkg.github.com/totallymoney/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - run: dotnet tool restore
+      - run: dotnet paket restore
+      - run: dotnet build
+      - run: dotnet run --project ./tests/*.fsproj
+
+      - id: commit_msg_reader
+        run: |
+          LATEST_TAG="$(git describe --tags --abbrev=0)"
+          MESSAGES_SINCE_TAG="$(git log "$LATEST_TAG".."$GITHUB_SHA" --format="%s <%an>")"
+          echo "::set-output name=messages::$MESSAGES_SINCE_TAG"
+
+      - run: |
+          dotnet pack \
+          --output ./out \
+          --configuration Release \
+          -p:PackageVersion=${{ env.publish_version }} \
+          -p:PackageReleaseNotes="${{ steps.commit_msg_reader.outputs.messages }}"
+
+      - run: |
+          dotnet nuget push ./out/*.nupkg \
+          --api-key ${{ secrets.NUGET_TOKEN }} \
+          --source https://www.nuget.org
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.publish_version }}
+          name: ${{ env.publish_version }}
+          body: ${{ steps.commit_msg_reader.outputs.messages }}
+          draft: false
+          prerelease: false
+
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: out/*.nupkg
+          tag: ${{ env.publish_version }}
+          overwrite: true
+          file_glob: true

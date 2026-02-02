@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        dotnet: ['10.x.x']
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      - run: dotnet tool restore
+      - run: dotnet paket restore
+      - run: dotnet build
+      - run: dotnet run --project ./tests/*.fsproj

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Json.Ok.fsproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Json.Ok.Tests.fsproj" />
+  </Folder>
+</Solution>
